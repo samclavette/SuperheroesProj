@@ -95,10 +95,12 @@ namespace Superheroes.Controllers
         // POST: SuperheroController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(Superhero superhero)
         {
             try
             {
+                _dbContext.Superheroes.Remove(superhero);
+                _dbContext.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             catch

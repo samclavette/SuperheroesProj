@@ -68,25 +68,21 @@ namespace Superheroes.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, Superhero superheroUpdate)
         {
-            Superhero superhero = new Superhero();
-
             try
             {
-                superhero = _dbContext.Superheroes.Where(s => s.Id == id).Single();
+                Superhero superhero = _dbContext.Superheroes.Where(s => s.Id == id).Single();
+                superhero.Name = superheroUpdate.Name;
+                superhero.AlterEgo = superheroUpdate.AlterEgo;
+                superhero.PrimaryAbility = superheroUpdate.PrimaryAbility;
+                superhero.SecondaryAbility = superheroUpdate.SecondaryAbility;
+                superhero.Catchphrase = superheroUpdate.Catchphrase;
+                _dbContext.SaveChanges();
+                return RedirectToAction(nameof(Index));
             }
-            catch (NullReferenceException)
+            catch
             {
-                Console.WriteLine("No superheroes with that name exist.");
                 return View();
             }
-
-            superhero.Name = superheroUpdate.Name;
-            superhero.AlterEgo = superheroUpdate.AlterEgo;
-            superhero.PrimaryAbility = superheroUpdate.PrimaryAbility;
-            superhero.SecondaryAbility = superheroUpdate.SecondaryAbility;
-            superhero.Catchphrase = superheroUpdate.Catchphrase;
-            _dbContext.SaveChanges();
-            return RedirectToAction(nameof(Index));
         }
 
         // GET: SuperheroController/Delete/5

@@ -21,14 +21,15 @@ namespace Superheroes.Controllers
         // GET: SuperheroController
         public ActionResult Index()
         {
-            return View();
+            List<Superhero> superheroList = new List<Superhero>();
+            return View(superheroList);
         }
 
         // GET: SuperheroController/Details/5
         public ActionResult Details(int id)
         {
-            _dbContext.Superheroes.Find(id);
-            return View();
+            Superhero superhero = _dbContext.Superheroes.Find(id);
+            return View(superhero);
         }
 
         // GET: SuperheroController/Create
@@ -58,7 +59,7 @@ namespace Superheroes.Controllers
         // GET: SuperheroController/Edit/5
         public ActionResult Edit(int id)
         {
-            Superhero superhero = _dbContext.Superheroes.Where(s => s.Id == id).FirstOrDefault();
+            Superhero superhero = _dbContext.Superheroes.Where(s => s.Id == id).Single();
             return View(superhero);
         }
 
@@ -69,7 +70,12 @@ namespace Superheroes.Controllers
         {
             try
             {
-                Gotts.ERA.Compute();
+                Superhero superhero = _dbContext.Superheroes.Where(s => s.Id == id).Single();
+                superhero.Name = collection.Name;
+                superhero.AlterEgo = collection.AlterEgo;
+                superhero.PrimaryAbility = collection.PrimaryAbility;
+                superhero.SecondaryAbility = collection.SecondaryAbility;
+                superhero.Catchphrase = collection.Catchphrase;
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -81,7 +87,8 @@ namespace Superheroes.Controllers
         // GET: SuperheroController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            Superhero superhero = _dbContext.Superheroes.Where(s => s.Id == id).Single();
+            return View(superhero);
         }
 
         // POST: SuperheroController/Delete/5

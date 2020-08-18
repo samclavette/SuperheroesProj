@@ -21,7 +21,8 @@ namespace Superheroes.Controllers
         // GET: SuperheroController
         public ActionResult Index()
         {
-            List<Superhero> superheroList = new List<Superhero>();
+            // query to return a table and pass in
+            var superheroList = _dbContext.Superheroes;
             return View(superheroList);
         }
 
@@ -35,8 +36,7 @@ namespace Superheroes.Controllers
         // GET: SuperheroController/Create
         public ActionResult Create()
         {
-            Superhero superhero = new Superhero();
-            return View(superhero);
+            return View();
         }
 
         // POST: SuperheroController/Create
@@ -66,16 +66,16 @@ namespace Superheroes.Controllers
         // POST: SuperheroController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, Superhero superheroUpdate)
         {
             try
             {
                 Superhero superhero = _dbContext.Superheroes.Where(s => s.Id == id).Single();
-                superhero.Name = collection.Where(i => i.Value == superhero.Name).ToString();
-                superhero.AlterEgo = collection.Where(i => i.Value == superhero.AlterEgo).ToString();
-                superhero.PrimaryAbility = collection.Where(i => i.Value == superhero.PrimaryAbility).ToString();
-                superhero.SecondaryAbility = collection.Where(i => i.Value == superhero.SecondaryAbility).ToString();
-                superhero.Catchphrase = collection.Where(i => i.Value == superhero.Catchphrase).ToString();
+                superhero.Name = superheroUpdate.Name;
+                superhero.AlterEgo = superheroUpdate.AlterEgo;
+                superhero.PrimaryAbility = superheroUpdate.PrimaryAbility;
+                superhero.SecondaryAbility = superheroUpdate.SecondaryAbility;
+                superhero.Catchphrase = superheroUpdate.Catchphrase;
                 _dbContext.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }

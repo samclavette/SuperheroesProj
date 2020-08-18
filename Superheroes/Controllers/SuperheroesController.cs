@@ -71,11 +71,12 @@ namespace Superheroes.Controllers
             try
             {
                 Superhero superhero = _dbContext.Superheroes.Where(s => s.Id == id).Single();
-                superhero.Name = collection.Name;
-                superhero.AlterEgo = collection.AlterEgo;
-                superhero.PrimaryAbility = collection.PrimaryAbility;
-                superhero.SecondaryAbility = collection.SecondaryAbility;
-                superhero.Catchphrase = collection.Catchphrase;
+                superhero.Name = collection.Where(i => i.Value == superhero.Name).ToString();
+                superhero.AlterEgo = collection.Where(i => i.Value == superhero.AlterEgo).ToString();
+                superhero.PrimaryAbility = collection.Where(i => i.Value == superhero.PrimaryAbility).ToString();
+                superhero.SecondaryAbility = collection.Where(i => i.Value == superhero.SecondaryAbility).ToString();
+                superhero.Catchphrase = collection.Where(i => i.Value == superhero.Catchphrase).ToString();
+                _dbContext.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             catch

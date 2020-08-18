@@ -27,7 +27,7 @@ namespace Superheroes.Controllers
         // GET: SuperheroController/Details/5
         public ActionResult Details(int id)
         {
-            
+            _dbContext.Superheroes.Find(id);
             return View();
         }
 
@@ -58,7 +58,8 @@ namespace Superheroes.Controllers
         // GET: SuperheroController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            Superhero superhero = _dbContext.Superheroes.Where(s => s.Id == id).FirstOrDefault();
+            return View(superhero);
         }
 
         // POST: SuperheroController/Edit/5
@@ -68,6 +69,7 @@ namespace Superheroes.Controllers
         {
             try
             {
+                Gotts.ERA.Compute();
                 return RedirectToAction(nameof(Index));
             }
             catch
